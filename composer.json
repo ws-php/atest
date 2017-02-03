@@ -1,0 +1,30 @@
+{
+    "name": "ws-php/atest",
+    "description": "atest",
+    "keywords": ["atest"],
+    "license": "MIT",
+    "homepage": "https://github.com/ws-php/atest",
+    "support": {
+        "issues": "https://github.com/ws-php/atest/issues",
+        "source": "https://github.com/ws-php/atest"
+    },
+    "authors": [
+        {
+            "name": "ws-php",
+            "email": "449211678@qq.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4"
+    },
+    "require-dev": {
+        
+    },
+    "autoload": {
+        "classmap": [],
+        "files": [],
+        "psr-4": {"Cn\\Amlove\\ATest\\": "src/Cn/Amlove/ATest"}
+    },
+    "minimum-stability": "dev"
+}
+
