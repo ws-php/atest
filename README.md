@@ -65,4 +65,177 @@ id, name, agent_id, info(agent信息,可能是文件路径), yoing_num(运力,�
 	, created_at, updated_at 
 
 
+== Yo 脚本格式
 
+```
+{
+    "id": "fzFo6EkZxryt7tlI8pm",
+    "name": "miya-M下单-kandy",
+    "trans": {
+        "variables": [
+            {
+                "name": "$sku",
+                "value": "1000197"
+            },
+            {
+                "name": "$s",
+                "value": "1"
+            },
+            {
+                "name": "$user",
+                "value": "miya23511218823"
+            },
+            {
+                "name": "$size",
+                "value": "SINGLE"
+            }
+        ],
+        "files": [
+            {
+                type: 'file',
+                value: {
+                    name: filename,
+                    path: path,
+                    ext: extname
+                }
+            }
+        ],
+        "steps": [
+            {
+                "actionId": "1476351890070",
+                "type": 1,
+                "actionName": "登录-1",
+                "url": "http://m.mia.com/login?url=http%3A%2F%2Fm.mia.com%2Fhome",
+                "protocol": "http",
+                "method": "GET",
+                "header": {
+                    "Accept-Encoding": "deflate"
+                },
+                "authorization": {},
+                "parameters": {},
+                "formdata": {},
+                "postProcessors": [
+                    {
+                        "type": "propertyExtractor",
+                        "propertyExtractor": [
+                            {
+                                "matchBody": "html",
+                                "propertyName": "//input[@id='m_rand_s']//@value",
+                                "goalProperty": "$s"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "assertions",
+                        "assertions": []
+                    }
+                ]
+            },
+            {
+                "actionId": "1476350196372",
+                "type": 1,
+                "actionName": "M-商品详情页-1",
+                "url": "http://m.mia.com/item-$sku.html",
+                "protocol": "http",
+                "method": "GET",
+                "header": {
+                    "Cookie": "$setCookie"
+                },
+                "authorization": {},
+                "parameters": {},
+                "formdata": {},
+                "postProcessors": [
+                    {
+                        "type": "propertyExtractor",
+                        "propertyExtractor": []
+                    },
+                    {
+                        "type": "assertions",
+                        "assertions": []
+                    }
+                ]
+            },
+            {
+                "actionId": "1476355011578",
+                "type": 1,
+                "actionName": "下单-1",
+                "url": "http://m.mia.com/instant/order/makeOrder",
+                "protocol": "http",
+                "method": "POST",
+                "header": {
+                    "Cookie": "$setCookie"
+                },
+                "authorization": {},
+                "parameters": {},
+                "formdata": {
+                    "type": "x-www-form-urlencoded",
+                    "value": {
+                        "itemType": "1",
+                        "coupon": "$Code",
+                        "apid": "",
+                        "w": "0",
+                        "aid": "$aid"
+                    }
+                },
+                "postProcessors": [
+                    {
+                        "type": "propertyExtractor",
+                        "propertyExtractor": [
+                            {
+                                "matchBody": "json",
+                                "propertyName": "oc",
+                                "goalProperty": "$orderCode"
+                            },
+                            {
+                                "matchBody": "json",
+                                "propertyName": "polling_interval",
+                                "goalProperty": "$pollingInterval"
+                            },
+                            {
+                                "matchBody": "json",
+                                "propertyName": "polling_amount",
+                                "goalProperty": "$pollingAmount"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "assertions",
+                        "assertions": []
+                    }
+                ]
+            }
+        ]
+    }
+}
+```
+
+== 临时代码
+
+```
+
+
+    public function setVariable($name, $value)
+    {
+        $find = false;
+        foreach ($this->trans['variables'] as $variable)
+        {
+            if ($name == $variable->name)
+            {
+                $variable->name = $value;
+                $find = true;
+                break;
+            }
+        }
+
+        if (!$find)
+        {
+            $this->trans['variables'][] = Variable::bind(['name'=>$name, 'value'=>$value]);
+        }
+
+    }
+
+```
+
+== 参考文章
+
+[美团构建线上流量压测工具](http://www.liuliangshenqi.com/fenxiang/2756.html)
