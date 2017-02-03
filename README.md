@@ -24,6 +24,9 @@ Web(轮询执行状态)-->Db(执行状态)-->Result(结果数据来源)
 注销Agent
 
 
+* web层主要接收客户端传递过来的 构建的yo json脚本,校验脚本的有效性,有效则将其存入到Db中
+
+
 [Engine层]
 
 -- agent
@@ -103,7 +106,7 @@ id, name, agent_id, info(agent信息,可能是文件路径), yoing_num(运力,�
         "steps": [
             {
                 "actionId": "1476351890070",
-                "type": 1,
+                "type": 'httpRequest',
                 "actionName": "登录-1",
                 "url": "http://m.mia.com/login?url=http%3A%2F%2Fm.mia.com%2Fhome",
                 "protocol": "http",
@@ -116,18 +119,18 @@ id, name, agent_id, info(agent信息,可能是文件路径), yoing_num(运力,�
                 "formdata": {},
                 "postProcessors": [
                     {
-                        "type": "propertyExtractor",
-                        "propertyExtractor": [
+                        "type": "variableExtractor",
+                        "value": [
                             {
                                 "matchBody": "html",
-                                "propertyName": "//input[@id='m_rand_s']//@value",
-                                "goalProperty": "$s"
+                                "property": "//input[@id='m_rand_s']//@value",
+                                "variable": "$s"
                             }
                         ]
                     },
                     {
                         "type": "assertions",
-                        "assertions": []
+                        "value": []
                     }
                 ]
             },
@@ -146,8 +149,8 @@ id, name, agent_id, info(agent信息,可能是文件路径), yoing_num(运力,�
                 "formdata": {},
                 "postProcessors": [
                     {
-                        "type": "propertyExtractor",
-                        "propertyExtractor": []
+                        "type": "variableExtractor",
+                        "variableExtractor": []
                     },
                     {
                         "type": "assertions",
@@ -179,28 +182,28 @@ id, name, agent_id, info(agent信息,可能是文件路径), yoing_num(运力,�
                 },
                 "postProcessors": [
                     {
-                        "type": "propertyExtractor",
-                        "propertyExtractor": [
+                        "type": "variableExtractor",
+                        "value": [
                             {
                                 "matchBody": "json",
-                                "propertyName": "oc",
-                                "goalProperty": "$orderCode"
+                                "property": "oc",
+                                "variable": "$orderCode"
                             },
                             {
                                 "matchBody": "json",
-                                "propertyName": "polling_interval",
-                                "goalProperty": "$pollingInterval"
+                                "property": "polling_interval",
+                                "variable": "$pollingInterval"
                             },
                             {
                                 "matchBody": "json",
-                                "propertyName": "polling_amount",
-                                "goalProperty": "$pollingAmount"
+                                "property": "polling_amount",
+                                "variable": "$pollingAmount"
                             }
                         ]
                     },
                     {
                         "type": "assertions",
-                        "assertions": []
+                        "value": []
                     }
                 ]
             }

@@ -12,8 +12,8 @@ class Step
 		$type = strtoupper(trim($data['type']));
 		switch ($type)
 		{
-			case 'HTTP':
-				$obj = HttpRequest::bind('value' => $data['delay']);
+			case 'HTTPREQUEST':
+				$obj = HttpRequest::bind($data);
 				break;
 			case 'DELAY':
 				$obj = Delay::bind('value' => $data['delay']);

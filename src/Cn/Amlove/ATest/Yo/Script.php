@@ -32,7 +32,7 @@ class Script extends It
 		$this->setSteps($trans['steps']);
 	}
 
-    private function setVariables(array $variables)
+    public function setVariables(array $variables)
     {
     	$this->trans['variables'] = [];
 
@@ -43,7 +43,7 @@ class Script extends It
     	
     }
 
-    private function setFiles(array $files)
+    public function setFiles(array $files)
     {
     	$this->trans['files'] = [];
 
@@ -54,7 +54,7 @@ class Script extends It
     	
     }
 
-    private function setSteps(array $steps)
+    public function setSteps(array $steps)
     {
     	$this->trans['steps'] = [];
 
